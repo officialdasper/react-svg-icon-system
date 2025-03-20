@@ -1,36 +1,100 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# React SVG Icon System
 
-## Getting Started
+Система для работы с SVG иконками в React приложениях. Поддерживает автоматическую генерацию типов из директории с иконками и кэширование SVG.
 
-First, run the development server:
+## Особенности
+
+- 🔄 Автоматическое кэширование иконок
+- 🚀 Предотвращение дублирования запросов
+- 🎨 Поддержка различных размеров и цветовых схем
+- ⚡ Мемоизация для оптимизации производительности
+- 🔍 Обработка ошибок загрузки
+- 📦 Автоматическая генерация TypeScript типов
+- 🎯 Поддержка currentColor для динамической окраски
+- ⚙️ TypeScript и Next.js
+
+## Установка
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Использование
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```tsx
+import { Icon } from '@/components/Icon';
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+// Базовое использование
+<Icon name="settings" />
 
-## Learn More
+// С указанием размера
+<Icon name="settings" size="sm" />
 
-To learn more about Next.js, take a look at the following resources:
+// С указанием цвета
+<Icon name="settings" colorScheme="primary" />
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+// Комбинированное использование
+<Icon 
+  name="settings" 
+  size="lg" 
+  colorScheme="secondary" 
+  className="custom-class" 
+/>
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Пропсы
 
-## Deploy on Vercel
+| Проп | Тип | По умолчанию | Описание |
+|------|-----|--------------|-----------|
+| name | IconName | - | Название иконки |
+| size | 'sm' \| 'md' \| 'lg' | 'md' | Размер иконки (16px, 24px, 32px) |
+| colorScheme | 'primary' \| 'secondary' \| 'white' | 'primary' | Цветовая схема |
+| className | string | - | Дополнительные CSS классы |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Разработка
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Структура проекта
+
+```
+├── public/
+│   └── icons/          # Директория с SVG иконками
+├── scripts/
+│   └── generate-icon-types.ts # Скрипт генерации типов
+└── src/
+    └── components/
+        └── Icon/
+            ├── Icon.tsx           # Основной компонент
+            ├── Icon.module.scss   # Стили компонента
+            ├── models.ts          # Автогенерируемые типы
+            ├── hook.ts            # Хук для работы с иконками
+            └── index.ts           # Экспорты
+```
+
+### Добавление новых иконок
+
+1. Добавьте SVG файл иконки в директорию `public/icons/`
+2. Запустите команду для генерации типов:
+```bash
+npm run icons
+```
+
+### Скрипты
+
+- `npm run dev` - запуск в режиме разработки
+- `npm run build` - сборка проекта
+- `npm run start` - запуск собранного проекта
+- `npm run icons` - генерация типов из директории с иконками
+- `npm run lint` - проверка кода
+
+## Принцип работы
+
+1. При первом запросе иконки создается Promise для загрузки
+2. Последующие запросы той же иконки используют кэшированные данные
+3. SVG очищается от ненужных атрибутов и оптимизируется
+4. Поддерживается динамическая смена цвета через currentColor
+5. При ошибке загрузки отображается пустой SVG с сохранением размеров
+6. Во время загрузки отображается анимация
+
+## Лицензия
+
+MIT
