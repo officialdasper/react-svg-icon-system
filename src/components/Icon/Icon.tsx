@@ -6,7 +6,7 @@ import { IconProps } from './models';
 import styles from './Icon.module.scss';
 import clsx from 'clsx';
 
-export const Icon: FC<IconProps> = memo(({ name, className, size = 'md', colorScheme = 'primary' }) => {
+const IconComponent: FC<IconProps> = memo(({ name, className, size = 'md', colorScheme }) => {
     const { svg, isLoading, error } = useIcon(name);
 
     if (isLoading) {
@@ -37,3 +37,6 @@ export const Icon: FC<IconProps> = memo(({ name, className, size = 'md', colorSc
         />
     );
 }); 
+
+IconComponent.displayName = 'Icon'
+export const Icon = IconComponent
