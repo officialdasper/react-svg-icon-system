@@ -49,10 +49,11 @@ export const useIcon = (name: IconName) => {
                 return;
             }
 
-            // Создаем Promise для отслеживания загрузки
+            const baseUrl = import.meta.env.BASE_URL || process.env.PUBLIC_URL || '';
+            
             loadingCache[name] = (async () => {
                 try {
-                    const response = await fetch(`/icons/${name}.svg`);
+                    const response = await fetch(`${baseUrl}/icons/${name}.svg`.replace(/\/\//g, '/'));
                     if (!response.ok) {
                         throw new Error(`Icon ${name} not found`);
                     }
