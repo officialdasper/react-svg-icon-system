@@ -49,7 +49,7 @@ export const useIcon = (name: IconName) => {
                 return;
             }
 
-            const baseUrl = import.meta.env.BASE_URL || process.env.PUBLIC_URL || '';
+            const baseUrl = process.env.NEXT_PUBLIC_BASE_PATH || '';
             
             loadingCache[name] = (async () => {
                 try {
